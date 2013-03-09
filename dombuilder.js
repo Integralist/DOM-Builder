@@ -2,14 +2,10 @@
  * Construct a DOM representation from 
  * the passed through data.
  *
- * @param   Arrays   options   a complex data structure made up of sub Objects/Arrays
+ * @param   Array   options   a complex data structure made up of sub Objects/Arrays
  * @param   Boolean   return_string    if true then return a string of the generated HTML struture
 */
 function DOM(options, return_string) {
-    if (!this.is_array(options)) {
-        throw new Error('Please check the documentation before using this library');
-    }
-
     this.content = '';
     this.options = options;
     this.return_string = return_string || false;

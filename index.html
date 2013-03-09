@@ -59,8 +59,9 @@
                         content: [
                             {
                                 tag: 'p',
+                                classes: ['some_other_class'],
                                 id: 'js-c',
-                                content: 'ghi'
+                                content: 'ghi (class = some_other_class, id = js-c)'
                             }
                         ]
                     }
@@ -86,8 +87,8 @@
                         content: [
                             {
                                 tag: 'p',
-                                id: 'js-c',
-                                content: 'ghi'
+                                id: 'js-d',
+                                content: 'ghi (the parent div will have class = a b c, id = js-d)'
                             }
                         ]
                     }
@@ -98,24 +99,6 @@
 
             document.body.appendChild(structure_a.content);
             document.getElementById('js-structure_b').innerHTML = structure_b.content;
-
-            /*
-                Currently an error will be thrown when incorrect data is provided.
-
-                Some examples:
-
-                new DOM()
-                new DOM(new Array())
-                new DOM({})
-
-                ...we require an Array which has content!
-
-                We could either remove this basic check and expect the user to read the documentation, 
-                or we could go the other way and really go hog wild with validation checks?
-
-                I think I'll keep with the basic check we have right now, but if push comes to shove 
-                I'd remove the check and just expect the user to understand the API.
-             */
         </script>
     </body>
 </html>
