@@ -1,17 +1,23 @@
 /**
+ * @license Copyright (c) 2013 Mark McDonnell (www.integralist.co.uk)
+ * LICENSE: see the LICENSE.txt file. 
+ * If file is missing, this file is subject to the MIT License at: 
+ * http://www.opensource.org/licenses/mit-license.php.
+ */
+
+/**
  * Construct a DOM representation from 
  * the passed through data.
  *
- * @param   Array   options   a complex data structure made up of sub Objects/Arrays
- * @param   Boolean   return_string    if true then return a string of the generated HTML struture
+ * @param   Array   contents   a complex data structure made up of sub Objects/Arrays
+ * @param   Boolean   options    if true then return a string of the generated HTML struture
 */
-function DOM(options, return_string) {
+function DOM(contents, options) {
     this.content = '';
-    this.options = options;
-    this.return_string = return_string || false;
-    this.construct(this.options);
+    this.options = options || { return_string: false, return_array: false };
+    this.construct(contents);
 
-    if (!return_string) {
+    if (!this.options.return_string) {
         this.convert_to_node();
     }
 }
@@ -49,7 +55,23 @@ DOM.prototype.construct = function(array) {
 }
 
 DOM.prototype.convert_to_node = function() {
-    var node = document.createElement('div');
+    var node = document.createElement('div'),
+        nodes = [],
+        counter = 0,
+        limit;
+
     node.innerHTML = this.content;
-    this.content = node;
+
+    if (this.options.return_array) {
+        limit = node.children.length;
+
+        while (counter < limit) {
+            nodes.push(node.children[counter].cloneNode(true));
+            counter++;
+        }
+
+        this.content = nodes;
+    } else {
+        this.content = node;
+    }
 }

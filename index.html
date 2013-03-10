@@ -6,7 +6,12 @@
         <title>DOM Builder</title>
         <style>
             body {
+                background-color: #E2E2E2;
                 font: 100%/1.5 sans-serif;
+                margin: auto;
+                max-width: 60em; /* 960px / 16px */
+                padding-left: 2em;
+                padding-right: 2em;
             }
 
             code {
@@ -14,7 +19,7 @@
                 font-family: Monaco, 'Courier New', monospace;
             }
 
-            #js-structure_b {
+            #js-structure_string {
                 border: 1px solid red;
             }
         </style>
@@ -30,14 +35,14 @@
         <p>The red bordered box is the content as a `<code>String</code>` and inserted into the DOM via `<code>innerHTML</code>`.</p>
         <p>The content below that is the actual nodes returned and are inserted to the DOM via `<code>appendChild</code>`.</p>
         <p>Check your browser's `<code>console</code>` to see both objects returned from the constructor.</p>
-        <div id="js-structure_b"></div>
+        <div id="js-structure_string"></div>
         <script src="dombuilder.js"></script>
         <script>
             /*
                 new DOM(data_structure, return_html_string?)
              */
 
-            var structure_a = new DOM([
+            var structure = new DOM([
                     {
                         tag: 'div',
                         id: 'js-a',
@@ -67,7 +72,7 @@
                     }
                 ]);
 
-            var structure_b = new DOM([
+            var structure_string = new DOM([
                     {
                         tag: 'div',
                         content: [
@@ -92,13 +97,41 @@
                             }
                         ]
                     }
-                ], true);
+                ], { return_string: true });
 
-            console.log(structure_a);
-            console.log(structure_b);
+            var structure_array = new DOM([
+                    {
+                        tag: 'div',
+                        content: [
+                            {
+                                tag: 'p',
+                                content: 'abc'
+                            },
+                            {
+                                tag: 'p',
+                                content: 'def'
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'div',
+                        classes: ['a', 'b', 'c'],
+                        content: [
+                            {
+                                tag: 'p',
+                                id: 'js-d',
+                                content: 'ghi (the parent div will have class = a b c, id = js-d)'
+                            }
+                        ]
+                    }
+                ], { return_array: true });
 
-            document.body.appendChild(structure_a.content);
-            document.getElementById('js-structure_b').innerHTML = structure_b.content;
+            console.log(structure);
+            console.log(structure_string);
+            console.log(structure_array);
+
+            document.body.appendChild(structure.content);
+            document.getElementById('js-structure_string').innerHTML = structure_string.content;
         </script>
     </body>
 </html>
