@@ -3,7 +3,7 @@ DOM-Builder
 
 Small utility script for easily generating a DOM structure.
 
-By default it returns the specified DOM wrapped in a `<div>`.
+By default it stores the specified DOM structure wrapped in a `<div>`.
 
 But if you pass through a configuration object you can change how the data is stored.
 
