@@ -6,11 +6,10 @@
  */
 
 /**
- * Construct a DOM representation from 
- * the passed through data.
+ * Construct a DOM structure based off of provided data.
  *
  * @param   Array   contents   a complex data structure made up of sub Objects/Arrays
- * @param   Boolean   options    if true then return a string of the generated HTML struture
+ * @param   Object   options   set of Boolean property values: `return_string` or `return_array`
 */
 function DOM(contents, options) {
     this.content = '';
