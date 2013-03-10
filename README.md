@@ -7,7 +7,7 @@ By default it returns the specified DOM wrapped in a `<div>`.
 
 But if you pass through a configuration object you can change how the data is stored.
 
-The alternatives are you can get the DOM structure back as a `String`, or instead of having the DOM wrapped in a `<div` you can have it as an `Array` which you can then loop over and inject however you wish.
+The alternatives are you can get the DOM structure back as a `String`, or instead of having the DOM wrapped in a `<div>` you can have it as an `Array` which you can then loop over and inject however you wish.
 
 ##Default Example
 
