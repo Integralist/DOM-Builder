@@ -3,6 +3,10 @@ DOM-Builder
 
 Small utility script for easily generating a DOM structure.
 
+The library is ~52 lines of code.
+
+The size is ~710 bytes when run through the uglify js minifier (and even smaller once gzip'ed)
+
 ##Example
 
 ```js
