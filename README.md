@@ -23,3 +23,19 @@ var structure = DOM.init(
 
 document.body.appendChild(structure);
 ```
+
+##Alias
+
+You can also use `DOM.el` if you wanted to instead of `DOM.create`:
+
+```js
+var structure = DOM.init(
+    DOM.el('div#js-a').content(
+        DOM.el('p').content('abc'),
+        DOM.el('p').content('def')
+    ),
+    DOM.create('div#js-b.x.y.z').content(
+        DOM.el('p#js-c.some_other_class').content('ghi')
+    )
+);
+```

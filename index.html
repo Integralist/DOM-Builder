@@ -42,6 +42,18 @@
                 )
             );
 
+            /*
+                var structure = DOM.init(
+                    DOM.el('div#js-a').content(
+                        DOM.el('p').content('abc'),
+                        DOM.el('p').content('def')
+                    ),
+                    DOM.el('div#js-b.x.y.z').content(
+                        DOM.el('p#js-c.some_other_class').content('ghi')
+                    )
+                );
+             */
+
             console.log(structure);
             
             document.body.appendChild(structure); // the generated HTML is wrapped in a <div>

@@ -33,6 +33,10 @@ var DOM = {
         this.structure += '</' + this.storage.tags.pop() + '>'; // remove the last tag from the storage list and use it here
     },
 
+    el: function(tag) {
+        return this.create(tag);
+    },
+
     create: function(tag) {
         var tag, id, classes;
 
