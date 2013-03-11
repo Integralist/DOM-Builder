@@ -5,72 +5,57 @@
  * http://www.opensource.org/licenses/mit-license.php.
  */
 
-/**
- * Construct a DOM structure based off of provided data.
- *
- * @param   Array   contents   a complex data structure made up of sub Objects/Arrays
- * @param   Object   options   set of Boolean property values: `return_string` or `return_array`
-*/
-function DOM(contents, options) {
-    this.content = '';
-    this.options = options || { return_string: false, return_array: false };
-    this.construct(contents);
+"use strict"
 
-    if (!this.options.return_string) {
-        this.convert_to_node();
-    }
-}
+var DOM = {
+    structure: '',
+    storage: { tags:[] },
 
-DOM.prototype.is_array = function(object) {
-    return Object.prototype.toString.call(object) === '[object Array]' && object.length >= 1;
-}
+    add_id: function(id) {
+        return id ? ' id="' + id + '"' : '';
+    },
 
-DOM.prototype.add_id = function(object) {
-    return object.id ? ' id="' + object.id + '"' : '';
-}
+    add_class: function(classes) {
+        return classes.length ? ' class="' + classes.join(' ') + '"' : '';
+    },
 
-DOM.prototype.add_class = function(object) {
-    return object.classes ? ' class="' + object.classes.join(' ') + '"' : '';
-}
-
-DOM.prototype.add_subcontent = function(data) {
-    if (typeof data === 'string') {
-        this.content += data;
-    } else if (this.is_array(data)) {
-        this.construct(data);
-    }
-}
-
-DOM.prototype.construct = function(array) {
-    var counter = 0,
-        limit = array.length;
-
-    while (counter < limit) {
-        this.content += '<' + array[counter].tag + '' + this.add_class(array[counter]) + '' + this.add_id(array[counter]) + '>';
-        this.add_subcontent(array[counter].content);
-        this.content += '</' + array[counter].tag + '>';
-        counter++;
-    }
-}
-
-DOM.prototype.convert_to_node = function() {
-    var node = document.createElement('div'),
-        nodes = [],
-        counter = 0,
-        limit;
-
-    node.innerHTML = this.content;
-
-    if (this.options.return_array) {
-        limit = node.children.length;
+    content: function() {
+        var counter = 0,
+            limit = arguments.length;
 
         while (counter < limit) {
-            nodes.push(node.children[counter].cloneNode(true));
+            if (typeof arguments[counter] == 'string') {
+                this.structure += arguments[counter];
+            }
             counter++;
         }
 
-        this.content = nodes;
-    } else {
-        this.content = node;
+        this.structure += '</' + this.storage.tags.pop() + '>'; // remove the last tag from the storage list and use it here
+    },
+
+    create: function(tag) {
+        var tag, id, classes;
+
+        id = /#([^.]+)/.exec(tag);
+        id = (id) ? id[1] : ''; // `exec` returns `null` if there is no match
+
+        classes = tag.split('.').splice(1); // remove the first index which should be the tag
+
+        tag = tag.match(/[^#.]+/)[0];
+
+        this.structure += '<' + tag + '' + this.add_class(classes) + '' + this.add_id(id) + '>';
+        this.storage.tags.push(tag); // store the current tag so we can close off the element after all sub content is added.
+
+        return this; // we return `this` so we can chain method calls
+    },
+
+    convert_to_node: function() {
+        var node = document.createElement('div');
+        node.innerHTML = this.structure;
+        return this.structure = node;
+    },
+
+    init: function() {
+        return this.convert_to_node();
     }
 }

@@ -18,120 +18,45 @@
                 color: blue;
                 font-family: Monaco, 'Courier New', monospace;
             }
-
-            #js-structure_string {
-                border: 1px solid red;
-            }
         </style>
     </head>
     <body>
         <h1>DOM Builder</h1>
-        <p>We use a constructor function to create DOM elements.</p>
-        <p>The object returned by the constructor has a `<code>content</code>` property.</p>
-        <p>This `<code>content</code>` property by default holds the specified DOM structure as an actual set of nodes (wrapped in a containing `<code>div</code>` - <em>I've yet to figure out a good work around to NOT having the extra `<code>div</code>` wrapping the content</em>)</p>
-        <p>But if you pass `<code>true</code>` as the second parameter you get the specified DOM structure as a `<code>String</code>` so you can `<code>innerHTML</code>` it into the DOM wherever you want it to go.</p>
-        <h2>Example</h2>
-        <p>The below content demonstrates this (view source for the details).</p>
-        <p>The red bordered box is the content as a `<code>String</code>` and inserted into the DOM via `<code>innerHTML</code>`.</p>
-        <p>The content below that is the actual nodes returned and are inserted to the DOM via `<code>appendChild</code>`.</p>
-        <p>Check your browser's `<code>console</code>` to see both objects returned from the constructor.</p>
-        <div id="js-structure_string"></div>
+        <p>The library is ~52 lines of code.</p>
+        <p>The size is ~710 bytes when run through the uglify js minifier (and even smaller once gzip'ed)</p>
+        <p>View the source of this page to see the DOM structure example we're generating, and directly below you'll see the out put inserted into the DOM of this page.</p>
+        <hr>
         <script src="dombuilder.js"></script>
         <script>
             /*
-                new DOM(data_structure, return_html_string?)
+                DOM.init(data_structure);
              */
-
-            var structure = new DOM([
-                    {
-                        tag: 'div',
-                        id: 'js-a',
-                        content: [
-                            {
-                                tag: 'p',
-                                content: 'abc'
-                            },
-                            {
-                                tag: 'p',
-                                content: 'def'
-                            }
-                        ]
-                    },
-                    {
-                        tag: 'div',
-                        classes: ['x', 'y', 'z'],
-                        id: 'js-b',
-                        content: [
-                            {
-                                tag: 'p',
-                                classes: ['some_other_class'],
-                                id: 'js-c',
-                                content: 'ghi (class = some_other_class, id = js-c)'
-                            }
-                        ]
-                    }
-                ]);
-
-            var structure_string = new DOM([
-                    {
-                        tag: 'div',
-                        content: [
-                            {
-                                tag: 'p',
-                                content: 'abc'
-                            },
-                            {
-                                tag: 'p',
-                                content: 'def'
-                            }
-                        ]
-                    },
-                    {
-                        tag: 'div',
-                        classes: ['a', 'b', 'c'],
-                        content: [
-                            {
-                                tag: 'p',
-                                id: 'js-d',
-                                content: 'ghi (the parent div will have class = a b c, id = js-d)'
-                            }
-                        ]
-                    }
-                ], { return_string: true });
-
-            var structure_array = new DOM([
-                    {
-                        tag: 'div',
-                        content: [
-                            {
-                                tag: 'p',
-                                content: 'abc'
-                            },
-                            {
-                                tag: 'p',
-                                content: 'def'
-                            }
-                        ]
-                    },
-                    {
-                        tag: 'div',
-                        classes: ['a', 'b', 'c'],
-                        content: [
-                            {
-                                tag: 'p',
-                                id: 'js-d',
-                                content: 'ghi (the parent div will have class = a b c, id = js-d)'
-                            }
-                        ]
-                    }
-                ], { return_array: true });
+            
+            var structure = DOM.init(
+                DOM.create('div#js-a').content(
+                    DOM.create('p').content('abc'),
+                    DOM.create('p').content('def')
+                ),
+                DOM.create('div#js-b.x.y.z').content(
+                    DOM.create('p#js-c.some_other_class').content('ghi')
+                )
+            );
 
             console.log(structure);
-            console.log(structure_string);
-            console.log(structure_array);
+            
+            document.body.appendChild(structure); // the generated HTML is wrapped in a <div>
 
-            document.body.appendChild(structure.content);
-            document.getElementById('js-structure_string').innerHTML = structure_string.content;
+            /*
+                The reason we need to wrap the required structure in a <div> is because 
+                otherwise we'd have to return an Array (or something similar) for the user 
+                to then insert into the DOM via a loop.
+
+                Or alternatively we would just return the generated string representation of 
+                the DOM structure for the user to innerHTML wherever they wanted.
+
+                I've opted for the former, which is to wrap the content in a <div> as I think 
+                it's nicer for the user to get back their DOM structure as an actual node
+             */
         </script>
     </body>
 </html>
