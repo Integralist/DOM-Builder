@@ -56,7 +56,8 @@ var DOM = {
     convert_to_node: function() {
         var node = document.createElement('div');
         node.innerHTML = this.structure;
-        return this.structure = node;
+        this.structure = ''; // reset
+        return node;
     },
 
     init: function() {

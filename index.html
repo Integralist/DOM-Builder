@@ -42,19 +42,18 @@
                 )
             );
 
-            /*
-                var structure = DOM.init(
-                    DOM.el('div#js-a').content(
-                        DOM.el('p').content('abc'),
-                        DOM.el('p').content('def')
-                    ),
-                    DOM.el('div#js-b.x.y.z').content(
-                        DOM.el('p#js-c.some_other_class').content('ghi')
-                    )
-                );
-             */
+            var structure_alias = DOM.init(
+                DOM.el('div#js-x').content(
+                    DOM.el('p').content('123'),
+                    DOM.el('p').content('456')
+                ),
+                DOM.el('div#js-y.a.b.c').content(
+                    DOM.el('p#js-z.some_other_class').content('789')
+                )
+            );
 
             console.log(structure);
+            console.log(structure_alias);
             
             document.body.appendChild(structure); // the generated HTML is wrapped in a <div>
 
