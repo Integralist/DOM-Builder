@@ -5,62 +5,68 @@
  * http://www.opensource.org/licenses/mit-license.php.
  */
 
-"use strict"
+(function (define) {
+    'use strict';
 
-var DOM = {
-    structure: '',
-    storage: { tags:[] },
+    define(function() {
+        var DOM = {
+            structure: '',
+            storage: { tags:[] },
 
-    add_id: function(id) {
-        return id ? ' id="' + id + '"' : '';
-    },
+            add_id: function(id) {
+                return id ? ' id="' + id + '"' : '';
+            },
 
-    add_class: function(classes) {
-        return classes.length ? ' class="' + classes.join(' ') + '"' : '';
-    },
+            add_class: function(classes) {
+                return classes.length ? ' class="' + classes.join(' ') + '"' : '';
+            },
 
-    content: function() {
-        var counter = 0,
-            limit = arguments.length;
+            content: function() {
+                var counter = 0,
+                    limit = arguments.length;
 
-        while (counter < limit) {
-            if (typeof arguments[counter] == 'string') {
-                this.structure += arguments[counter];
+                while (counter < limit) {
+                    if (typeof arguments[counter] == 'string') {
+                        this.structure += arguments[counter];
+                    }
+                    counter++;
+                }
+
+                this.structure += '</' + this.storage.tags.pop() + '>'; // remove the last tag from the storage list and use it here
+            },
+
+            el: function(tag) {
+                return this.create(tag);
+            },
+
+            create: function(tag) {
+                var tag, id, classes;
+
+                id = /#([^.]+)/.exec(tag);
+                id = (id) ? id[1] : ''; // `exec` returns `null` if there is no match
+
+                classes = tag.split('.').splice(1); // remove the first index which should be the tag
+
+                tag = tag.match(/[^#.]+/)[0];
+
+                this.structure += '<' + tag + '' + this.add_class(classes) + '' + this.add_id(id) + '>';
+                this.storage.tags.push(tag); // store the current tag so we can close off the element after all sub content is added.
+
+                return this; // we return `this` so we can chain method calls
+            },
+
+            convert_to_node: function() {
+                var node = document.createElement('div');
+                node.innerHTML = this.structure;
+                this.structure = ''; // reset
+                return node;
+            },
+
+            init: function() {
+                return this.convert_to_node();
             }
-            counter++;
         }
 
-        this.structure += '</' + this.storage.tags.pop() + '>'; // remove the last tag from the storage list and use it here
-    },
-
-    el: function(tag) {
-        return this.create(tag);
-    },
-
-    create: function(tag) {
-        var tag, id, classes;
-
-        id = /#([^.]+)/.exec(tag);
-        id = (id) ? id[1] : ''; // `exec` returns `null` if there is no match
-
-        classes = tag.split('.').splice(1); // remove the first index which should be the tag
-
-        tag = tag.match(/[^#.]+/)[0];
-
-        this.structure += '<' + tag + '' + this.add_class(classes) + '' + this.add_id(id) + '>';
-        this.storage.tags.push(tag); // store the current tag so we can close off the element after all sub content is added.
-
-        return this; // we return `this` so we can chain method calls
-    },
-
-    convert_to_node: function() {
-        var node = document.createElement('div');
-        node.innerHTML = this.structure;
-        this.structure = ''; // reset
-        return node;
-    },
-
-    init: function() {
-        return this.convert_to_node();
-    }
-}
+        return DOM;
+    });
+}(typeof define == 'function' && define.amd ? define : function(factory) { this.DOM = factory() } ));

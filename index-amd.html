@@ -1,0 +1,31 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>DOM Builder</title>
+        <style>
+            body {
+                background-color: #E2E2E2;
+                font: 100%/1.5 sans-serif;
+                margin: auto;
+                max-width: 60em; /* 960px / 16px */
+                padding-left: 2em;
+                padding-right: 2em;
+            }
+
+            code {
+                color: blue;
+                font-family: Monaco, 'Courier New', monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>DOM Builder</h1>
+        <p>The library is ~52 lines of code.</p>
+        <p>The size is ~710 bytes when run through the uglify js minifier (and even smaller once gzip'ed)</p>
+        <p>View the source of this page to see the DOM structure example we're generating, and directly below you'll see the out put inserted into the DOM of this page.</p>
+        <hr>
+        <script src="require.js" data-main="app"></script>
+    </body>
+</html>
