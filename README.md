@@ -39,3 +39,9 @@ var structure = DOM.init(
     )
 );
 ```
+
+##TODO
+
+- Add Alias for `$`
+- Add AMD support
+- clean-up direct access to `DOM.create`
