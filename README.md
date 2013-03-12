@@ -7,6 +7,8 @@ The library is ~52 lines of code.
 
 The size is ~710 bytes when run through the uglify js minifier (and even smaller once gzip'ed)
 
+AMD compatible (see [index-amd.html](index-amd.html)).
+
 ##Example
 
 ```js
@@ -38,6 +40,34 @@ var structure = DOM.init(
         DOM.el('p#js-c.some_other_class').content('ghi')
     )
 );
+```
+
+##AMD
+
+You can use an AMD loader such as [RequireJS](http://www.requirejs.org/) to load the DOM Builder script:
+
+```js
+require(['dombuilder'], function($) {
+    var structure = $.init(
+        $.create('div#js-a').content(
+            $.create('p').content('abc'),
+            $.create('p').content('def')
+        ),
+        $.create('div#js-b.x.y.z').content(
+            $.create('p#js-c.some_other_class').content('ghi')
+        )
+    );
+
+    var structure_alias = $.init(
+        $.el('div#js-x').content(
+            $.el('p').content('123'),
+            $.el('p').content('456')
+        ),
+        $.el('div#js-y.a.b.c').content(
+            $.el('p#js-z.some_other_class').content('789')
+        )
+    );
+});
 ```
 
 ##TODO
