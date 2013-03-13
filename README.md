@@ -12,7 +12,7 @@ AMD compatible (see [index-amd.html](index-amd.html)).
 ##Example
 
 ```js
-// Returns DOM structure wrapped in a `<div>`
+// Returns DOM structure as a document fragment
 var structure = DOM.init(
     DOM.create('div#js-a').content(
         DOM.create('p').content('abc'),
