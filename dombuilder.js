@@ -56,10 +56,27 @@
             },
 
             convert_to_node: function() {
-                var node = document.createElement('div');
+                var doc  = document,
+                    frag = doc.createDocumentFragment(),
+                    node = doc.createElement('div'),
+                    counter = 0,
+                    limit;
+
                 node.innerHTML = this.structure;
                 this.structure = ''; // reset
-                return node;
+
+                // We now need to remove the 'wrapping' <div> which was only necessary so we could `innerHTML` the content into it...
+
+                limit = node.children.length;
+
+                while (counter < limit) {
+                    frag.appendChild(node.children[counter].cloneNode(true));
+                    counter++;
+                }
+
+                node = null; // clean-up
+
+                return frag;
             },
 
             init: function() {

@@ -22,17 +22,5 @@ define(['dombuilder'], function($) {
     console.log(structure);
     console.log(structure_alias);
     
-    document.body.appendChild(structure); // the generated HTML is wrapped in a <div>
-
-    /*
-        The reason we need to wrap the required structure in a <div> is because 
-        otherwise we'd have to return an Array (or something similar) for the user 
-        to then insert into the DOM via a loop.
-
-        Or alternatively we would just return the generated string representation of 
-        the DOM structure for the user to innerHTML wherever they wanted.
-
-        I've opted for the former, which is to wrap the content in a <div> as I think 
-        it's nicer for the user to get back their DOM structure as an actual node
-     */
+    document.body.appendChild(structure); // the generated HTML is returned as a document fragment (https://developer.mozilla.org/en-US/docs/DOM/document.createDocumentFragment)
 });
