@@ -47,7 +47,8 @@ var structure = DOM.init(
 You can use an AMD loader such as [RequireJS](http://www.requirejs.org/) to load the DOM Builder script:
 
 ```js
-require(['dombuilder'], function($) {
+// module_dombuilder.js
+define(['dombuilder'], function($) {
     var structure = $.init(
         $.create('div#js-a').content(
             $.create('p').content('abc'),
@@ -68,6 +69,9 @@ require(['dombuilder'], function($) {
         )
     );
 });
+
+// Application.js
+require(['module_dombuilder', 'module_x', 'module_y', 'module_z']);
 ```
 
 ##TODO
