@@ -80,6 +80,9 @@
             },
 
             init: function() {
+                if (!arguments.length) {
+                    throw new Error('Please ensure you pass in at least one argument to DOM.init() which is a call to either the DOM.create() or DOM.el() methods');
+                }
                 return this.convert_to_node();
             }
         }
