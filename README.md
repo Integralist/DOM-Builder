@@ -74,6 +74,6 @@ define(['dombuilder'], function($) {
 require(['module_dombuilder', 'module_x', 'module_y', 'module_z']);
 ```
 
-##TODO
+##Note
 
-- clean-up direct access to `DOM.create`
+Do not use `DOM.create` or `DOM.el` outside of a `DOM.init` call as they wont function as intended. The way DOM Builder has been built is to allow the return value from those functions to be passed into `DOM.init` to handle.
