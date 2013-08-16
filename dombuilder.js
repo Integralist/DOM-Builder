@@ -21,6 +21,26 @@
                 return classes.length ? ' class="' + classes.join(' ') + '"' : '';
             },
 
+            add_attribute: function(attributes) {
+                if (!attributes) {
+                    return '';
+                }
+
+                var len   = attributes.length,
+                    attrs = [],
+                    data, key, prop;
+
+                while (len--) {
+                    data = attributes[len].split('=');
+                    key  = data[0].substring(1);
+                    prop = data[1].substring(0, data[1].length-1);
+
+                    attrs.push(' ' + key + '="' + prop + '"');
+                }
+
+                return attrs.join(' ');
+            },
+
             content: function() {
                 var counter = 0,
                     limit = arguments.length;
@@ -40,16 +60,18 @@
             },
 
             create: function(tag) {
-                var tag, id, classes;
+                var tag, id, classes, attributes;
 
                 id = /#([^.]+)/.exec(tag);
                 id = (id) ? id[1] : ''; // `exec` returns `null` if there is no match
 
                 classes = tag.split('.').splice(1); // remove the first index which should be the tag
 
-                tag = tag.match(/[^#.]+/)[0];
+                attributes = tag.match(/\[[^\]]+\]/g); // e.g. ["[width=100]", "[blah=abc]"]
 
-                this.structure += '<' + tag + '' + this.add_class(classes) + '' + this.add_id(id) + '>';
+                tag = tag.match(/[^#.\[\]]+/)[0];
+
+                this.structure += '<' + tag + '' + this.add_class(classes) + '' + this.add_id(id) + '' + this.add_attribute(attributes) + '>';
                 this.storage.tags.push(tag); // store the current tag so we can close off the element after all sub content is added.
 
                 return this; // we return `this` so we can chain method calls

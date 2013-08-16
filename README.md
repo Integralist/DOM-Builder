@@ -20,6 +20,9 @@ var structure = DOM.init(
     ),
     DOM.create('div#js-b.x.y.z').content(
         DOM.create('p#js-c.some_other_class').content('ghi')
+    ),
+    DOM.create('select').content(
+        DOM.create('option[value=1][data-test=123]').content('Hah!')
     )
 );
 

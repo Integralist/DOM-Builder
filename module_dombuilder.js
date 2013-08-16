@@ -6,6 +6,9 @@ define(['dombuilder'], function($) {
         ),
         $.create('div#js-b.x.y.z').content(
             $.create('p#js-c.some_other_class').content('ghi')
+        ),
+        $.create('select').content(
+            $.create('option[value=1][data-test=123]').content('Hah!')
         )
     );
 
